@@ -13,7 +13,7 @@ def anti_amazon_captcha(image_path):
     image = Image.open(image_path).convert('LA')
     width, height = image.size
 
-    # use image histogram and thradhold to separate 6 letter
+    # use image histogram and threshold to separate 6 letter
     col_mean_list = list()
     for x in range(0, width):
         total = 0
@@ -22,19 +22,19 @@ def anti_amazon_captcha(image_path):
         col_mean = total / height
         col_mean_list.append(col_mean)
 
-    thradhold = 241
+    threshold = 241
     separator_index_list = list()
     while len(separator_index_list) != 7:
         if len(separator_index_list) > 7:
-            thradhold += 1
+            threshold += 1
         elif len(separator_index_list) < 7:
-            thradhold -= 1
-        elif thradhold >= 255 or thradhold <= 0:
+            threshold -= 1
+        elif threshold >= 255 or threshold <= 0:
             return 'can not crop correct number of letters'
 
         col_mean_index_list = list()
         for i, col_mean in enumerate(col_mean_list):
-            if col_mean < thradhold:
+            if col_mean < threshold:
                 col_mean_index_list.append(i)
         col_mean_min_index = col_mean_index_list[0]
         col_mean_max_index = col_mean_index_list[-1]
@@ -98,3 +98,5 @@ print('{} == {}'.format(anti_amazon_captcha('amazon_captcha5.jpg'), 'LACNMU'))
 print('{} == {}'.format(anti_amazon_captcha('amazon_captcha6.jpg'), 'LXUJEP'))
 print('{} == {}'.format(anti_amazon_captcha('amazon_captcha7.jpg'), 'JEPMRY'))
 print('{} == {}'.format(anti_amazon_captcha('amazon_captcha8.jpg'), 'BTCAJK'))
+print('{} == {}'.format(anti_amazon_captcha('amazon_captcha9.jpg'), 'BXYHJX'))
+print('{} == {}'.format(anti_amazon_captcha('amazon_captcha10.jpg'), 'HXEJFM'))
